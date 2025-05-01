@@ -8,6 +8,9 @@
     },
     {
       "path": "./apps/f1-race-viewer"
+    },
+    {
+      "path": "./libs/f1-replay-data-model/typescript"
     }
   ]
 }

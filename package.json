@@ -51,6 +51,7 @@
     "vitest": "^3.0.0"
   },
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "libs/f1-replay-data-model/*"
   ]
 }
