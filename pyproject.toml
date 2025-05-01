@@ -1,0 +1,18 @@
+[tool.nx]
+autoActivate = true
+
+[tool.poetry]
+name = "@f1-race-replay/source"
+version = "1.0.0"
+description = ""
+authors = [ ]
+license = "Proprietary"
+readme = "README.md"
+package-mode = false
+
+  [tool.poetry.dependencies]
+  python = ">=3.9"
+
+[build-system]
+requires = [ "poetry-core==1.1.0" ]
+build-backend = "poetry.core.masonry.api"
