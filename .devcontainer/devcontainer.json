@@ -25,7 +25,8 @@
 			"extensions": [
 				"esbenp.prettier-vscode",
 				"nrwl.angular-console",
-				"dbaeumer.vscode-eslint"
+				"dbaeumer.vscode-eslint",
+				"peterj.proto"
 			]
 		}
 	}
