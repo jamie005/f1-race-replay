@@ -1,7 +1,4 @@
-"""Hello unit test module."""
-
-
-
 def test_hello():
     """Test the hello function."""
-    assert True == True
+    test = True
+    assert test == True
