@@ -35,7 +35,7 @@ jobs:
       - run: npx cypress install
       - uses: nrwl/nx-set-shas@v4
       - uses: actions/setup-python@v5
-      - run: python --version
+      - run: pipx install poetry
 
 
       # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
