@@ -37,6 +37,7 @@ jobs:
       - uses: actions/setup-python@v5
       - uses: abatilo/actions-poetry@v3
 
+      - run: poetry install
 
       # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
       # - run: npx nx-cloud record -- echo Hello World
