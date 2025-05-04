@@ -29,7 +29,8 @@
           "buildDepsName": "build-deps",
           "watchDepsName": "watch-deps"
         }
-      }
+      },
+      "exclude": ["libs/f1-replay-data-model/typescript/*"]
     },
     {
       "plugin": "@nx/react/router-plugin",
@@ -73,6 +74,15 @@
     },
     {
       "plugin": "@nxlv/python"
+    },
+    {
+      "plugin": "@nx/js/typescript",
+      "include": ["libs/f1-replay-data-model/typescript/*"],
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        }
+      }
     }
   ],
   "targetDefaults": {

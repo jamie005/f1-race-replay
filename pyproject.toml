@@ -1,0 +1,35 @@
+[tool.nx]
+autoActivate = true
+
+[tool.poetry]
+name = "@f1-race-replay/source"
+version = "1.0.0"
+description = ""
+authors = [ ]
+license = "Proprietary"
+readme = "README.md"
+package-mode = false
+
+  [tool.poetry.dependencies]
+  python = "<4.0,>=3.9"
+
+    [tool.poetry.dependencies.f1-replay-data-model-py]
+    path = "libs/f1-replay-data-model/python"
+    develop = true
+
+    [tool.poetry.dependencies.f1-car-data-stub]
+    path = "apps/f1-car-data-stub"
+    develop = true
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "7.1.1"
+autopep8 = "2.3.1"
+pytest = "8.3.4"
+pytest-sugar = "1.0.0"
+pytest-cov = "6.0.0"
+pytest-html = "4.1.1"
+poetry-plugin-export = ">=1.8"
+
+[build-system]
+requires = [ "poetry-core==1.1.0" ]
+build-backend = "poetry.core.masonry.api"

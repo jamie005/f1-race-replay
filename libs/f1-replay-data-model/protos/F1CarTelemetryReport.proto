@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+message F1CarTelemeteryReport {
+  string driver = 1;
+  double latitude = 2;
+  double longitude = 3;
+}
