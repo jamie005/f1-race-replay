@@ -29,6 +29,9 @@ pytest-sugar = "1.0.0"
 pytest-cov = "6.0.0"
 pytest-html = "4.1.1"
 
+[tool.poetry.requires-plugins]
+poetry-plugin-export = ">=1.8"
+
 [build-system]
 requires = [ "poetry-core==1.1.0" ]
 build-backend = "poetry.core.masonry.api"
