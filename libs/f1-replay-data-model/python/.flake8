@@ -1,0 +1,12 @@
+[flake8]
+exclude =
+	.git,
+	__pycache__,
+	build,
+	dist,
+	.tox,
+	venv,
+	.venv,
+	.pytest_cache,
+	f1_replay_data_model_py
+max-line-length = 120
