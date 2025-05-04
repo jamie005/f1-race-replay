@@ -21,9 +21,6 @@ package-mode = false
     path = "apps/f1-car-data-stub"
     develop = true
 
-[tool.poetry.requires-plugins]
-poetry-plugin-export = ">=1.8"
-
 [tool.poetry.group.dev.dependencies]
 flake8 = "7.1.1"
 autopep8 = "2.3.1"
@@ -31,6 +28,7 @@ pytest = "8.3.4"
 pytest-sugar = "1.0.0"
 pytest-cov = "6.0.0"
 pytest-html = "4.1.1"
+poetry-plugin-export = ">=1.8"
 
 [build-system]
 requires = [ "poetry-core==1.1.0" ]
