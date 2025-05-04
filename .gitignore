@@ -38,8 +38,9 @@ testem.log
 .DS_Store
 Thumbs.db
 
-.nx/cache
-.nx/workspace-data
+# NX stuff
+.nx
+reports
 
 vite.config.*.timestamp*
 vitest.config.*.timestamp*
@@ -210,7 +211,7 @@ cython_debug/
 
 ### Python Patch ###
 # Poetry local configuration file - https://python-poetry.org/docs/configuration/#local-configuration
-poetry.toml
+# poetry.toml
 
 # ruff
 .ruff_cache/
