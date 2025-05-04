@@ -10,25 +10,25 @@ import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 export const protobufPackage = "";
 
 export interface F1CarTelemeteryReport {
-  query: string;
-  pageNumber: number;
-  resultsPerPage: number;
+  driver: string;
+  latitude: number;
+  longitude: number;
 }
 
 function createBaseF1CarTelemeteryReport(): F1CarTelemeteryReport {
-  return { query: "", pageNumber: 0, resultsPerPage: 0 };
+  return { driver: "", latitude: 0, longitude: 0 };
 }
 
 export const F1CarTelemeteryReport: MessageFns<F1CarTelemeteryReport> = {
   encode(message: F1CarTelemeteryReport, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.query !== "") {
-      writer.uint32(10).string(message.query);
+    if (message.driver !== "") {
+      writer.uint32(10).string(message.driver);
     }
-    if (message.pageNumber !== 0) {
-      writer.uint32(16).int32(message.pageNumber);
+    if (message.latitude !== 0) {
+      writer.uint32(17).double(message.latitude);
     }
-    if (message.resultsPerPage !== 0) {
-      writer.uint32(24).int32(message.resultsPerPage);
+    if (message.longitude !== 0) {
+      writer.uint32(25).double(message.longitude);
     }
     return writer;
   },
@@ -45,23 +45,23 @@ export const F1CarTelemeteryReport: MessageFns<F1CarTelemeteryReport> = {
             break;
           }
 
-          message.query = reader.string();
+          message.driver = reader.string();
           continue;
         }
         case 2: {
-          if (tag !== 16) {
+          if (tag !== 17) {
             break;
           }
 
-          message.pageNumber = reader.int32();
+          message.latitude = reader.double();
           continue;
         }
         case 3: {
-          if (tag !== 24) {
+          if (tag !== 25) {
             break;
           }
 
-          message.resultsPerPage = reader.int32();
+          message.longitude = reader.double();
           continue;
         }
       }
@@ -75,22 +75,22 @@ export const F1CarTelemeteryReport: MessageFns<F1CarTelemeteryReport> = {
 
   fromJSON(object: any): F1CarTelemeteryReport {
     return {
-      query: isSet(object.query) ? globalThis.String(object.query) : "",
-      pageNumber: isSet(object.pageNumber) ? globalThis.Number(object.pageNumber) : 0,
-      resultsPerPage: isSet(object.resultsPerPage) ? globalThis.Number(object.resultsPerPage) : 0,
+      driver: isSet(object.driver) ? globalThis.String(object.driver) : "",
+      latitude: isSet(object.latitude) ? globalThis.Number(object.latitude) : 0,
+      longitude: isSet(object.longitude) ? globalThis.Number(object.longitude) : 0,
     };
   },
 
   toJSON(message: F1CarTelemeteryReport): unknown {
     const obj: any = {};
-    if (message.query !== "") {
-      obj.query = message.query;
+    if (message.driver !== "") {
+      obj.driver = message.driver;
     }
-    if (message.pageNumber !== 0) {
-      obj.pageNumber = Math.round(message.pageNumber);
+    if (message.latitude !== 0) {
+      obj.latitude = message.latitude;
     }
-    if (message.resultsPerPage !== 0) {
-      obj.resultsPerPage = Math.round(message.resultsPerPage);
+    if (message.longitude !== 0) {
+      obj.longitude = message.longitude;
     }
     return obj;
   },
@@ -100,9 +100,9 @@ export const F1CarTelemeteryReport: MessageFns<F1CarTelemeteryReport> = {
   },
   fromPartial<I extends Exact<DeepPartial<F1CarTelemeteryReport>, I>>(object: I): F1CarTelemeteryReport {
     const message = createBaseF1CarTelemeteryReport();
-    message.query = object.query ?? "";
-    message.pageNumber = object.pageNumber ?? 0;
-    message.resultsPerPage = object.resultsPerPage ?? 0;
+    message.driver = object.driver ?? "";
+    message.latitude = object.latitude ?? 0;
+    message.longitude = object.longitude ?? 0;
     return message;
   },
 };

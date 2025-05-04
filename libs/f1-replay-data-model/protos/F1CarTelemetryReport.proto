@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 message F1CarTelemeteryReport {
-  string query = 1;
-  int32 page_number = 2;
-  int32 results_per_page = 3;
+  string driver = 1;
+  double latitude = 2;
+  double longitude = 3;
 }

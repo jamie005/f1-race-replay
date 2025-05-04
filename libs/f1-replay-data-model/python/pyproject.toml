@@ -28,6 +28,7 @@ readme = 'README.md'
 
   [tool.poetry.dependencies]
   python = ">=3.9"
+  protobuf = "6.30.2"
 
 [build-system]
 requires = ["poetry-core"]
