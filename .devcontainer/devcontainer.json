@@ -29,7 +29,11 @@
 				"peterj.proto"
 			]
 		}
-	}
+	},
+
+	"mounts": [
+    	"type=bind,source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,readonly"
+	]
 
 	// 👇 Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
