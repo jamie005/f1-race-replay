@@ -11,10 +11,26 @@ export interface F1CarTelemeteryReport {
   driver: string;
   latitude: number;
   longitude: number;
+  speedKmh: number;
+  engineRpm: number;
+  gear: number;
+  throttlePrecent: number;
+  brakeOn: boolean;
+  onTrack: boolean;
 }
 
 function createBaseF1CarTelemeteryReport(): F1CarTelemeteryReport {
-  return { driver: "", latitude: 0, longitude: 0 };
+  return {
+    driver: "",
+    latitude: 0,
+    longitude: 0,
+    speedKmh: 0,
+    engineRpm: 0,
+    gear: 0,
+    throttlePrecent: 0,
+    brakeOn: false,
+    onTrack: false,
+  };
 }
 
 export const F1CarTelemeteryReport: MessageFns<F1CarTelemeteryReport> = {
@@ -27,6 +43,24 @@ export const F1CarTelemeteryReport: MessageFns<F1CarTelemeteryReport> = {
     }
     if (message.longitude !== 0) {
       writer.uint32(25).double(message.longitude);
+    }
+    if (message.speedKmh !== 0) {
+      writer.uint32(37).float(message.speedKmh);
+    }
+    if (message.engineRpm !== 0) {
+      writer.uint32(45).float(message.engineRpm);
+    }
+    if (message.gear !== 0) {
+      writer.uint32(48).uint32(message.gear);
+    }
+    if (message.throttlePrecent !== 0) {
+      writer.uint32(56).uint32(message.throttlePrecent);
+    }
+    if (message.brakeOn !== false) {
+      writer.uint32(64).bool(message.brakeOn);
+    }
+    if (message.onTrack !== false) {
+      writer.uint32(72).bool(message.onTrack);
     }
     return writer;
   },
@@ -62,6 +96,54 @@ export const F1CarTelemeteryReport: MessageFns<F1CarTelemeteryReport> = {
           message.longitude = reader.double();
           continue;
         }
+        case 4: {
+          if (tag !== 37) {
+            break;
+          }
+
+          message.speedKmh = reader.float();
+          continue;
+        }
+        case 5: {
+          if (tag !== 45) {
+            break;
+          }
+
+          message.engineRpm = reader.float();
+          continue;
+        }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.gear = reader.uint32();
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.throttlePrecent = reader.uint32();
+          continue;
+        }
+        case 8: {
+          if (tag !== 64) {
+            break;
+          }
+
+          message.brakeOn = reader.bool();
+          continue;
+        }
+        case 9: {
+          if (tag !== 72) {
+            break;
+          }
+
+          message.onTrack = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -76,6 +158,12 @@ export const F1CarTelemeteryReport: MessageFns<F1CarTelemeteryReport> = {
       driver: isSet(object.driver) ? globalThis.String(object.driver) : "",
       latitude: isSet(object.latitude) ? globalThis.Number(object.latitude) : 0,
       longitude: isSet(object.longitude) ? globalThis.Number(object.longitude) : 0,
+      speedKmh: isSet(object.speedKmh) ? globalThis.Number(object.speedKmh) : 0,
+      engineRpm: isSet(object.engineRpm) ? globalThis.Number(object.engineRpm) : 0,
+      gear: isSet(object.gear) ? globalThis.Number(object.gear) : 0,
+      throttlePrecent: isSet(object.throttlePrecent) ? globalThis.Number(object.throttlePrecent) : 0,
+      brakeOn: isSet(object.brakeOn) ? globalThis.Boolean(object.brakeOn) : false,
+      onTrack: isSet(object.onTrack) ? globalThis.Boolean(object.onTrack) : false,
     };
   },
 
@@ -90,6 +178,24 @@ export const F1CarTelemeteryReport: MessageFns<F1CarTelemeteryReport> = {
     if (message.longitude !== 0) {
       obj.longitude = message.longitude;
     }
+    if (message.speedKmh !== 0) {
+      obj.speedKmh = message.speedKmh;
+    }
+    if (message.engineRpm !== 0) {
+      obj.engineRpm = message.engineRpm;
+    }
+    if (message.gear !== 0) {
+      obj.gear = Math.round(message.gear);
+    }
+    if (message.throttlePrecent !== 0) {
+      obj.throttlePrecent = Math.round(message.throttlePrecent);
+    }
+    if (message.brakeOn !== false) {
+      obj.brakeOn = message.brakeOn;
+    }
+    if (message.onTrack !== false) {
+      obj.onTrack = message.onTrack;
+    }
     return obj;
   },
 
@@ -101,6 +207,12 @@ export const F1CarTelemeteryReport: MessageFns<F1CarTelemeteryReport> = {
     message.driver = object.driver ?? "";
     message.latitude = object.latitude ?? 0;
     message.longitude = object.longitude ?? 0;
+    message.speedKmh = object.speedKmh ?? 0;
+    message.engineRpm = object.engineRpm ?? 0;
+    message.gear = object.gear ?? 0;
+    message.throttlePrecent = object.throttlePrecent ?? 0;
+    message.brakeOn = object.brakeOn ?? false;
+    message.onTrack = object.onTrack ?? false;
     return message;
   },
 };
