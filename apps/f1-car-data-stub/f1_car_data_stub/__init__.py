@@ -19,11 +19,14 @@ class F1CarDataStub:
     def start(self):
         previous_time = 0.0
         next_time_delta_seconds = 0.0
-        for _, telemetry in self._car_telemetry.iterrows():
+        for _, telemetry_row in self._car_telemetry.iterrows():
             time.sleep(next_time_delta_seconds)
-            f1_car_telemetry_report = self._transformer.transform(telemetry)
-            self._producer.send("bruh", f1_car_telemetry_report)
-            time_delta: pd.Timedelta = telemetry["Time"]
+
+            f1_car_telemetry_report = self._transformer.transform(telemetry_row)
+            self._producer.send("bruh", f1_car_telemetry_report.SerializeToString())
+            self._logger.debug(f"Telemetry report sent:\n{f1_car_telemetry_report}")
+
+            time_delta: pd.Timedelta = telemetry_row["Time"]
             next_time_delta_seconds = time_delta.total_seconds() - previous_time
             previous_time = time_delta.total_seconds()
             

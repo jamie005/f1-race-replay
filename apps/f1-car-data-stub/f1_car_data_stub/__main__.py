@@ -1,42 +1,59 @@
 import logging
 import sys
 
-import fastf1
 from kafka import KafkaProducer
-from kafka.errors import NoBrokersAvailable
 
 from f1_car_data_stub import F1CarDataStub
-from f1_car_data_stub.helpers.logging import configure_logger
+from f1_car_data_stub.helpers.fastf1 import get_car_telemetry
+from f1_car_data_stub.helpers.logging import color_log_handler
+from f1_car_data_stub.helpers.settings import F1CarDataStubSettings
 
 
-def main():
-    # Logger setup
+TRACK = "Monza"
+YEAR = 2021
+SESSION_TYPE = "Race"
+DRIVER = "VER"
+
+def main() -> None:
+    # Default WARNING level logger setup
     logger = logging.getLogger(__package__)
-    configure_logger(logger, "INFO")
+    logger.addHandler(color_log_handler)
 
-    # Kafka setup
-    logger.info("Creating Kafka producer...")
+    # Load settings
     try:
-        kafka_producer = KafkaProducer(bootstrap_servers="localhost:9094", value_serializer=lambda v: v.SerializeToString())
-    except NoBrokersAvailable:
-        logger.critical(f"Kafka broker not available. Please start the Kafka broker.")
+        settings = F1CarDataStubSettings()
+    except ValueError as e:
+        logger.error(f"Invalid settings: {e}")
         sys.exit(1)
-    logger.info("Kafka producer created!")
 
-    # FastF1 setup
-    fastf1.set_log_level(logging.CRITICAL) # Set to CRITICAL to avoid FastF1 logs
+    # Log level adjustment
+    logger.setLevel(settings.log_level)
+
+    # Kafka producer setup
+    logger.info(f"Connecting to Kafka at {settings.kafka_address.encoded_string()}...")
     try:
-        session = fastf1.get_session(2021, 'Monza', 'Race')
-        session.load(weather=False, messages=False)
+        kafka_producer = KafkaProducer(bootstrap_servers=settings.kafka_address.encoded_string())
     except Exception as e:
-        logger.critical(f"Failed to load FastF1 session: {e}")
+        logger.error(f"Failed to create Kafka producer: {e}")
         sys.exit(1)
-    driver_laps = session.laps.pick_drivers('VER')
-    car_telemetry = driver_laps.get_telemetry()
+    logger.info("Kafka producer created successfully!")
+    
+    # Load car telemetry
+    logger.info(f"Loading {DRIVER}'s {TRACK} {YEAR} {SESSION_TYPE} car telemetry...")
+    try:
+        car_telemetry = get_car_telemetry(TRACK, YEAR, SESSION_TYPE, DRIVER)
+    except Exception as e:
+        logger.error(f"Failed to load car telemetry: {e}")
+        sys.exit(1)
+    logger.info("Car telemetry loaded successfully!")
 
-    # F1CarDataStub setup
+    # Start F1 Car Data Stub
     stub = F1CarDataStub(kafka_producer, car_telemetry)
-    stub.start()
+    logger.info("Starting F1 Car Data Stub...")
+    try:
+        stub.start()
+    except KeyboardInterrupt:
+        logger.info("Shutting down F1 Car Data Stub...")
 
 if __name__ == "__main__":
     main()
