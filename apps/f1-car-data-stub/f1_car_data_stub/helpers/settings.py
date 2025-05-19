@@ -3,6 +3,14 @@ from pydantic import KafkaDsn, field_validator
 
 
 class F1CarDataStubSettings(BaseSettings):
+    """
+    Settings for the F1 Car Data Stub application.
+
+    Attributes:
+        kafka_address (KafkaDsn): The Kafka broker address (default: "kafka://localhost:9094").
+        log_level (str): The logging level (default: "INFO").
+        driver (str): The driver's car to get telemetry from (default: "VER").
+    """
     kafka_address: KafkaDsn = "kafka://localhost:9094"
     log_level: str = "INFO"
     driver: str = "VER"
