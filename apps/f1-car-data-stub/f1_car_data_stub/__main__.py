@@ -4,6 +4,7 @@ import sys
 from kafka import KafkaProducer
 
 from f1_car_data_stub import F1CarDataStub
+from f1_car_data_stub.geometry.track_origins import TRACK_WGS84_ORIGINS
 from f1_car_data_stub.helpers.fastf1 import get_car_telemetry
 from f1_car_data_stub.helpers.logging import color_log_handler
 from f1_car_data_stub.helpers.settings import F1CarDataStubSettings
@@ -47,7 +48,7 @@ def main() -> None:
     logger.info("Car telemetry loaded successfully!")
 
     # Start F1 Car Data Stub
-    stub = F1CarDataStub(kafka_producer, car_telemetry)
+    stub = F1CarDataStub(kafka_producer, car_telemetry, TRACK_WGS84_ORIGINS[settings.track])
     logger.info("Starting F1 Car Data Stub...")
     try:
         stub.start()

@@ -1,6 +1,8 @@
 from pydantic_settings import BaseSettings
 from pydantic import KafkaDsn, field_validator
 
+from f1_car_data_stub.geometry.track_origins import TRACK_WGS84_ORIGINS
+
 
 class F1CarDataStubSettings(BaseSettings):
     """
@@ -14,6 +16,7 @@ class F1CarDataStubSettings(BaseSettings):
     kafka_address: KafkaDsn = "kafka://localhost:9094"
     log_level: str = "INFO"
     driver: str = "VER"
+    track: str = "Monza"
 
     @field_validator("log_level")
     @classmethod
@@ -22,3 +25,10 @@ class F1CarDataStubSettings(BaseSettings):
         if v.upper() not in valid_levels:
             raise ValueError(f"log_level must be one of {valid_levels}, got '{v}'")
         return v.upper()
+    
+    @field_validator("track")
+    @classmethod
+    def validate_track(cls, v: str) -> str:
+        if v not in TRACK_WGS84_ORIGINS.keys():
+            raise ValueError(f"'{v}' is not one of these supported tracks: {list(TRACK_WGS84_ORIGINS.keys())}")
+        return v

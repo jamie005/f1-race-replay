@@ -10,9 +10,9 @@ from fastf1.core import Telemetry
 
 
 class F1CarDataStub:
-    def __init__(self, producer: KafkaProducer, car_telemetry: Telemetry):
+    def __init__(self, producer: KafkaProducer, car_telemetry: Telemetry, track_origin: Wgs84Position):
         self._producer = producer
-        self._transformer = TelemetryTransformer(Wgs84Position(45.617100, 9.282650))
+        self._transformer = TelemetryTransformer(track_origin)
         self._car_telemetry = car_telemetry
         self._topic = f"telemetry.{car_telemetry.driver}"
         self._logger = logging.getLogger(__package__)
