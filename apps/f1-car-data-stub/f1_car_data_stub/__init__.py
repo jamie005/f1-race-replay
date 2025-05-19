@@ -14,19 +14,20 @@ class F1CarDataStub:
         self._producer = producer
         self._transformer = TelemetryTransformer(Wgs84Position(45.617100, 9.282650))
         self._car_telemetry = car_telemetry
+        self._topic = f"telemetry.{car_telemetry.driver}"
         self._logger = logging.getLogger(__package__)
 
     def start(self):
         previous_time = 0.0
-        next_time_delta_seconds = 0.0
+        message_interval = 0.0
         for _, telemetry_row in self._car_telemetry.iterrows():
-            time.sleep(next_time_delta_seconds)
+            time.sleep(message_interval)
 
             f1_car_telemetry_report = self._transformer.transform(telemetry_row)
-            self._producer.send("bruh", f1_car_telemetry_report.SerializeToString())
+            self._producer.send(self._topic, f1_car_telemetry_report.SerializeToString())
             self._logger.debug(f"Telemetry report sent:\n{f1_car_telemetry_report}")
 
             time_delta: pd.Timedelta = telemetry_row["Time"]
-            next_time_delta_seconds = time_delta.total_seconds() - previous_time
+            message_interval = time_delta.total_seconds() - previous_time
             previous_time = time_delta.total_seconds()
             

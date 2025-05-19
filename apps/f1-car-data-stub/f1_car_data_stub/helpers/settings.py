@@ -4,8 +4,8 @@ from pydantic import KafkaDsn, field_validator
 
 class F1CarDataStubSettings(BaseSettings):
     kafka_address: KafkaDsn = "kafka://localhost:9094"
-    output_topic: str = "bruh"
     log_level: str = "INFO"
+    driver: str = "VER"
 
     @field_validator("log_level")
     @classmethod
