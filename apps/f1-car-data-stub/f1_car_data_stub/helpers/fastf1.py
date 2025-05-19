@@ -11,10 +11,10 @@ def get_car_telemetry(track: str, year: int, session_type: str, driver: str) -> 
     logger.debug(f"Loading {track} {year} {session_type} session...")
     session = fastf1.get_session(year, track, session_type)
     session.load(weather=False, messages=False)
-    logger.debug("Session loaded successfully!")
+    logger.debug(f"{session} loaded successfully!")
 
-    logger.debug(f"Picking {driver} laps...")
+    logger.debug(f"Loading {driver} laps...")
     driver_laps = session.laps.pick_drivers(driver)
-    logger.debug(f"Picked {driver} laps!")
+    logger.debug(f"Laps loaded!")
     
     return driver_laps.get_telemetry()

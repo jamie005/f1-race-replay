@@ -12,7 +12,6 @@ from f1_car_data_stub.helpers.settings import F1CarDataStubSettings
 TRACK = "Monza"
 YEAR = 2021
 SESSION_TYPE = "Race"
-DRIVER = "VER"
 
 def main() -> None:
     # Default WARNING level logger setup
@@ -39,9 +38,9 @@ def main() -> None:
     logger.info("Kafka producer created successfully!")
     
     # Load car telemetry
-    logger.info(f"Loading {DRIVER}'s {TRACK} {YEAR} {SESSION_TYPE} car telemetry...")
+    logger.info(f"Loading {settings.driver}'s {TRACK} {YEAR} {SESSION_TYPE} car telemetry...")
     try:
-        car_telemetry = get_car_telemetry(TRACK, YEAR, SESSION_TYPE, DRIVER)
+        car_telemetry = get_car_telemetry(TRACK, YEAR, SESSION_TYPE, settings.driver)
     except Exception as e:
         logger.error(f"Failed to load car telemetry: {e}")
         sys.exit(1)
