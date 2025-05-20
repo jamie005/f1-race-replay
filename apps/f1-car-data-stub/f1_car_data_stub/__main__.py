@@ -8,6 +8,7 @@ from f1_car_data_stub.geometry.track_origins import TRACK_WGS84_ORIGINS
 from f1_car_data_stub.helpers.fastf1 import get_car_telemetry
 from f1_car_data_stub.helpers.logging import color_log_handler
 from f1_car_data_stub.helpers.settings import F1CarDataStubSettings
+from f1_car_data_stub.transformers.telemetry_transformer import TelemetryTransformer
 
 
 TRACK = "Monza"
@@ -47,13 +48,18 @@ def main() -> None:
         sys.exit(1)
     logger.info("Car telemetry loaded successfully!")
 
+    telemetry_transformer = TelemetryTransformer(TRACK_WGS84_ORIGINS[settings.track])
+    publish_topic = f"f1-race-replay.telemetry.{settings.driver.lower()}"
+
     # Start F1 Car Data Stub
-    stub = F1CarDataStub(kafka_producer, car_telemetry, TRACK_WGS84_ORIGINS[settings.track])
+    stub = F1CarDataStub(kafka_producer, car_telemetry, telemetry_transformer, publish_topic)
     logger.info("Starting F1 Car Data Stub...")
     try:
         stub.start()
     except KeyboardInterrupt:
         logger.info("Shutting down F1 Car Data Stub...")
+        
+    logger.info(f"Finished sending telemetry!")
 
 if __name__ == "__main__":
     main()
