@@ -54,7 +54,7 @@ export const F1CarTelemetryReport: MessageFns<F1CarTelemetryReport> = {
       writer.uint32(48).uint32(message.gear);
     }
     if (message.throttlePercent !== 0) {
-      writer.uint32(56).uint32(message.throttlePercent);
+      writer.uint32(61).float(message.throttlePercent);
     }
     if (message.brakeOn !== false) {
       writer.uint32(64).bool(message.brakeOn);
@@ -121,11 +121,11 @@ export const F1CarTelemetryReport: MessageFns<F1CarTelemetryReport> = {
           continue;
         }
         case 7: {
-          if (tag !== 56) {
+          if (tag !== 61) {
             break;
           }
 
-          message.throttlePercent = reader.uint32();
+          message.throttlePercent = reader.float();
           continue;
         }
         case 8: {
@@ -188,7 +188,7 @@ export const F1CarTelemetryReport: MessageFns<F1CarTelemetryReport> = {
       obj.gear = Math.round(message.gear);
     }
     if (message.throttlePercent !== 0) {
-      obj.throttlePercent = Math.round(message.throttlePercent);
+      obj.throttlePercent = message.throttlePercent;
     }
     if (message.brakeOn !== false) {
       obj.brakeOn = message.brakeOn;

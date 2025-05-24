@@ -21,7 +21,7 @@ class F1CarTelemetryReport(_message.Message):
     speed_kmh: float
     engine_rpm: float
     gear: int
-    throttle_percent: int
+    throttle_percent: float
     brake_on: bool
     on_track: bool
-    def __init__(self, driver: _Optional[str] = ..., latitude: _Optional[float] = ..., longitude: _Optional[float] = ..., speed_kmh: _Optional[float] = ..., engine_rpm: _Optional[float] = ..., gear: _Optional[int] = ..., throttle_percent: _Optional[int] = ..., brake_on: bool = ..., on_track: bool = ...) -> None: ...
+    def __init__(self, driver: _Optional[str] = ..., latitude: _Optional[float] = ..., longitude: _Optional[float] = ..., speed_kmh: _Optional[float] = ..., engine_rpm: _Optional[float] = ..., gear: _Optional[int] = ..., throttle_percent: _Optional[float] = ..., brake_on: bool = ..., on_track: bool = ...) -> None: ...

@@ -7,7 +7,7 @@ message F1CarTelemetryReport {
   float speed_kmh = 4;
   float engine_rpm = 5;
   uint32 gear = 6;
-  uint32 throttle_percent = 7;
+  float throttle_percent = 7;
   bool brake_on = 8;
   bool on_track = 9;
 }
