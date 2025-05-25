@@ -79,5 +79,5 @@ def test_f1_car_data_stub_with_empty_telemetry(mock_kafka_producer, telemetry_tr
     stub = F1CarDataStub(mock_kafka_producer, empty_telemetry, telemetry_transformer, kafka_topic)
 
     stub.start()
-    
+
     mock_kafka_producer.send.assert_not_called()

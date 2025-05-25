@@ -25,7 +25,7 @@ class F1CarDataStubSettings(BaseSettings):
         if v.upper() not in valid_levels:
             raise ValueError(f"log_level must be one of {valid_levels}, got '{v}'")
         return v.upper()
-    
+
     @field_validator("track")
     @classmethod
     def validate_track(cls, v: str) -> str:

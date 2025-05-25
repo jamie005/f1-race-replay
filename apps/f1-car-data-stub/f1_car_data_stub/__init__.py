@@ -55,7 +55,7 @@ class F1CarDataStub:
                 self._logger.debug(f"Telemetry report {index} sent to kafka:\n{f1_car_telemetry_report}")
             except Exception as e:
                 self._logger.error(f"Failed to send telemetry to Kafka: {e}")
-            
+
             time_delta: pd.Timedelta = telemetry_row["Time"]
             message_interval = time_delta.total_seconds() - previous_time
             previous_time = time_delta.total_seconds()

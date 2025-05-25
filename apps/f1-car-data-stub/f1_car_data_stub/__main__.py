@@ -15,6 +15,7 @@ TRACK = "Monza"
 YEAR = 2021
 SESSION_TYPE = "Race"
 
+
 def main() -> None:
     # Default WARNING level logger setup
     logger = logging.getLogger(__package__)
@@ -38,7 +39,7 @@ def main() -> None:
         logger.error(f"Failed to create Kafka producer: {e}")
         sys.exit(1)
     logger.info("Kafka producer created successfully!")
-    
+
     # Load car telemetry
     logger.info(f"Loading {settings.driver}'s {TRACK} {YEAR} {SESSION_TYPE} car telemetry...")
     try:
@@ -58,8 +59,9 @@ def main() -> None:
         stub.start()
     except KeyboardInterrupt:
         logger.info("Shutting down F1 Car Data Stub...")
-        
-    logger.info(f"Finished sending telemetry!")
+
+    logger.info("Finished sending telemetry!")
+
 
 if __name__ == "__main__":
     main()

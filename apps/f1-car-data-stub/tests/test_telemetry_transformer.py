@@ -1,6 +1,5 @@
 import pandas as pd
 import pymap3d
-import pytest
 
 from f1_car_data_stub.geometry.wgs84_position import Wgs84Position
 from f1_car_data_stub.transformers.telemetry_transformer import TelemetryTransformer
