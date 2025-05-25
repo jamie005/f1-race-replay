@@ -1,7 +1,13 @@
 syntax = "proto3";
 
-message F1CarTelemeteryReport {
+message F1CarTelemetryReport {
   string driver = 1;
   double latitude = 2;
   double longitude = 3;
+  float speed_kmh = 4;
+  float engine_rpm = 5;
+  uint32 gear = 6;
+  float throttle_percent = 7;
+  bool brake_on = 8;
+  bool on_track = 9;
 }

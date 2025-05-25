@@ -1,7 +1,10 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
     "production": [
       "default",
       "!{projectRoot}/.eslintrc.json",
@@ -13,7 +16,9 @@
       "!{projectRoot}/**/*.cy.[jt]s?(x)",
       "!{projectRoot}/cypress.config.[jt]s"
     ],
-    "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
+    "sharedGlobals": [
+      "{workspaceRoot}/.github/workflows/ci.yml"
+    ]
   },
   "nxCloudId": "680e727f004f69698549863e",
   "plugins": [
@@ -30,7 +35,9 @@
           "watchDepsName": "watch-deps"
         }
       },
-      "exclude": ["libs/f1-replay-data-model/typescript/*"]
+      "exclude": [
+        "libs/f1-replay-data-model/typescript/*"
+      ]
     },
     {
       "plugin": "@nx/react/router-plugin",
@@ -77,20 +84,33 @@
     },
     {
       "plugin": "@nx/js/typescript",
-      "include": ["libs/f1-replay-data-model/typescript/*"],
+      "include": [
+        "libs/f1-replay-data-model/typescript/*"
+      ],
       "options": {
         "typecheck": {
           "targetName": "typecheck"
         }
       }
+    },
+    {
+      "plugin": "@nx-tools/nx-container",
+      "options": {
+        "defaultEngine": "docker",
+        "defaultRegistry": "docker.io"
+      }
     }
   ],
   "targetDefaults": {
     "test": {
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ]
     },
     "e2e-ci--**/**": {
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ]
     }
   },
   "generators": {

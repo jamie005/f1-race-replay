@@ -19,7 +19,6 @@ node_modules
 
 # IDE - VSCode
 .vscode/*
-!.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
@@ -220,3 +219,6 @@ cython_debug/
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
+
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md

@@ -24,13 +24,13 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1a\x46\x31\x43\x61rTelemetryReport.proto\"L\n\x15\x46\x31\x43\x61rTelemeteryReport\x12\x0e\n\x06\x64river\x18\x01 \x01(\t\x12\x10\n\x08latitude\x18\x02 \x01(\x01\x12\x11\n\tlongitude\x18\x03 \x01(\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x1a\x46\x31\x43\x61rTelemetryReport.proto\"\xbe\x01\n\x14\x46\x31\x43\x61rTelemetryReport\x12\x0e\n\x06\x64river\x18\x01 \x01(\t\x12\x10\n\x08latitude\x18\x02 \x01(\x01\x12\x11\n\tlongitude\x18\x03 \x01(\x01\x12\x11\n\tspeed_kmh\x18\x04 \x01(\x02\x12\x12\n\nengine_rpm\x18\x05 \x01(\x02\x12\x0c\n\x04gear\x18\x06 \x01(\r\x12\x18\n\x10throttle_percent\x18\x07 \x01(\x02\x12\x10\n\x08\x62rake_on\x18\x08 \x01(\x08\x12\x10\n\x08on_track\x18\t \x01(\x08\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'F1CarTelemetryReport_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_F1CARTELEMETERYREPORT']._serialized_start=30
-  _globals['_F1CARTELEMETERYREPORT']._serialized_end=106
+  _globals['_F1CARTELEMETRYREPORT']._serialized_start=31
+  _globals['_F1CARTELEMETRYREPORT']._serialized_end=221
 # @@protoc_insertion_point(module_scope)

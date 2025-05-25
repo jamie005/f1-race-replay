@@ -7,18 +7,34 @@
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 
-export interface F1CarTelemeteryReport {
+export interface F1CarTelemetryReport {
   driver: string;
   latitude: number;
   longitude: number;
+  speedKmh: number;
+  engineRpm: number;
+  gear: number;
+  throttlePercent: number;
+  brakeOn: boolean;
+  onTrack: boolean;
 }
 
-function createBaseF1CarTelemeteryReport(): F1CarTelemeteryReport {
-  return { driver: "", latitude: 0, longitude: 0 };
+function createBaseF1CarTelemetryReport(): F1CarTelemetryReport {
+  return {
+    driver: "",
+    latitude: 0,
+    longitude: 0,
+    speedKmh: 0,
+    engineRpm: 0,
+    gear: 0,
+    throttlePercent: 0,
+    brakeOn: false,
+    onTrack: false,
+  };
 }
 
-export const F1CarTelemeteryReport: MessageFns<F1CarTelemeteryReport> = {
-  encode(message: F1CarTelemeteryReport, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const F1CarTelemetryReport: MessageFns<F1CarTelemetryReport> = {
+  encode(message: F1CarTelemetryReport, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.driver !== "") {
       writer.uint32(10).string(message.driver);
     }
@@ -28,13 +44,31 @@ export const F1CarTelemeteryReport: MessageFns<F1CarTelemeteryReport> = {
     if (message.longitude !== 0) {
       writer.uint32(25).double(message.longitude);
     }
+    if (message.speedKmh !== 0) {
+      writer.uint32(37).float(message.speedKmh);
+    }
+    if (message.engineRpm !== 0) {
+      writer.uint32(45).float(message.engineRpm);
+    }
+    if (message.gear !== 0) {
+      writer.uint32(48).uint32(message.gear);
+    }
+    if (message.throttlePercent !== 0) {
+      writer.uint32(61).float(message.throttlePercent);
+    }
+    if (message.brakeOn !== false) {
+      writer.uint32(64).bool(message.brakeOn);
+    }
+    if (message.onTrack !== false) {
+      writer.uint32(72).bool(message.onTrack);
+    }
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): F1CarTelemeteryReport {
+  decode(input: BinaryReader | Uint8Array, length?: number): F1CarTelemetryReport {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseF1CarTelemeteryReport();
+    const message = createBaseF1CarTelemetryReport();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -62,6 +96,54 @@ export const F1CarTelemeteryReport: MessageFns<F1CarTelemeteryReport> = {
           message.longitude = reader.double();
           continue;
         }
+        case 4: {
+          if (tag !== 37) {
+            break;
+          }
+
+          message.speedKmh = reader.float();
+          continue;
+        }
+        case 5: {
+          if (tag !== 45) {
+            break;
+          }
+
+          message.engineRpm = reader.float();
+          continue;
+        }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.gear = reader.uint32();
+          continue;
+        }
+        case 7: {
+          if (tag !== 61) {
+            break;
+          }
+
+          message.throttlePercent = reader.float();
+          continue;
+        }
+        case 8: {
+          if (tag !== 64) {
+            break;
+          }
+
+          message.brakeOn = reader.bool();
+          continue;
+        }
+        case 9: {
+          if (tag !== 72) {
+            break;
+          }
+
+          message.onTrack = reader.bool();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -71,15 +153,21 @@ export const F1CarTelemeteryReport: MessageFns<F1CarTelemeteryReport> = {
     return message;
   },
 
-  fromJSON(object: any): F1CarTelemeteryReport {
+  fromJSON(object: any): F1CarTelemetryReport {
     return {
       driver: isSet(object.driver) ? globalThis.String(object.driver) : "",
       latitude: isSet(object.latitude) ? globalThis.Number(object.latitude) : 0,
       longitude: isSet(object.longitude) ? globalThis.Number(object.longitude) : 0,
+      speedKmh: isSet(object.speedKmh) ? globalThis.Number(object.speedKmh) : 0,
+      engineRpm: isSet(object.engineRpm) ? globalThis.Number(object.engineRpm) : 0,
+      gear: isSet(object.gear) ? globalThis.Number(object.gear) : 0,
+      throttlePercent: isSet(object.throttlePercent) ? globalThis.Number(object.throttlePercent) : 0,
+      brakeOn: isSet(object.brakeOn) ? globalThis.Boolean(object.brakeOn) : false,
+      onTrack: isSet(object.onTrack) ? globalThis.Boolean(object.onTrack) : false,
     };
   },
 
-  toJSON(message: F1CarTelemeteryReport): unknown {
+  toJSON(message: F1CarTelemetryReport): unknown {
     const obj: any = {};
     if (message.driver !== "") {
       obj.driver = message.driver;
@@ -90,17 +178,41 @@ export const F1CarTelemeteryReport: MessageFns<F1CarTelemeteryReport> = {
     if (message.longitude !== 0) {
       obj.longitude = message.longitude;
     }
+    if (message.speedKmh !== 0) {
+      obj.speedKmh = message.speedKmh;
+    }
+    if (message.engineRpm !== 0) {
+      obj.engineRpm = message.engineRpm;
+    }
+    if (message.gear !== 0) {
+      obj.gear = Math.round(message.gear);
+    }
+    if (message.throttlePercent !== 0) {
+      obj.throttlePercent = message.throttlePercent;
+    }
+    if (message.brakeOn !== false) {
+      obj.brakeOn = message.brakeOn;
+    }
+    if (message.onTrack !== false) {
+      obj.onTrack = message.onTrack;
+    }
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<F1CarTelemeteryReport>, I>>(base?: I): F1CarTelemeteryReport {
-    return F1CarTelemeteryReport.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<F1CarTelemetryReport>, I>>(base?: I): F1CarTelemetryReport {
+    return F1CarTelemetryReport.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<F1CarTelemeteryReport>, I>>(object: I): F1CarTelemeteryReport {
-    const message = createBaseF1CarTelemeteryReport();
+  fromPartial<I extends Exact<DeepPartial<F1CarTelemetryReport>, I>>(object: I): F1CarTelemetryReport {
+    const message = createBaseF1CarTelemetryReport();
     message.driver = object.driver ?? "";
     message.latitude = object.latitude ?? 0;
     message.longitude = object.longitude ?? 0;
+    message.speedKmh = object.speedKmh ?? 0;
+    message.engineRpm = object.engineRpm ?? 0;
+    message.gear = object.gear ?? 0;
+    message.throttlePercent = object.throttlePercent ?? 0;
+    message.brakeOn = object.brakeOn ?? false;
+    message.onTrack = object.onTrack ?? false;
     return message;
   },
 };
