@@ -1,27 +1,20 @@
 import asyncio
+import functools
 from aiokafka import AIOKafkaConsumer
-from websockets.asyncio.server import serve
 
+from kafka_websocket_bridge import create_websocket_server, kafka_websocket_handler
+from kafka_websocket_bridge.settings import KafkaWebsocketBridgeSettings
 
-
-async def echo(websocket):
-    consumer = AIOKafkaConsumer(
-        'f1-race-replay.telemetry.ver',
-        bootstrap_servers='localhost:9094')
-    # Get cluster layout and join group `my-group`
-    await consumer.start()
-    try:
-        # Consume messages
-        async for msg in consumer:
-            await websocket.send(msg.value)
-    finally:
-        # Will leave consumer group; perform autocommit if enabled.
-        await consumer.stop()
-        
 
 async def main():
-    async with serve(echo, "localhost", 8765) as server:
-        await server.serve_forever()
+    settings = KafkaWebsocketBridgeSettings()
+
+    consumer = AIOKafkaConsumer(bootstrap_servers=settings.kafka_address,)
+    consumer.subscribe(pattern=settings.kafka_topic_pattern)
+
+    handler = functools.partial(kafka_websocket_handler, consumer=consumer)
+    
+    await create_websocket_server(handler, host=settings.websocket_host, port=settings.websocket_port)
 
 
 if __name__ == "__main__":
