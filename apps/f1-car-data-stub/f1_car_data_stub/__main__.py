@@ -6,9 +6,9 @@ from kafka import KafkaProducer
 from f1_car_data_stub import F1CarDataStub
 from f1_car_data_stub.geometry.track_origins import TRACK_WGS84_ORIGINS
 from f1_car_data_stub.helpers.fastf1 import get_car_telemetry
-from f1_car_data_stub.helpers.logging import color_log_handler
 from f1_car_data_stub.helpers.settings import F1CarDataStubSettings
 from f1_car_data_stub.transformers.telemetry_transformer import TelemetryTransformer
+from f1_replay_py_helpers.logging import color_log_handler
 
 
 TRACK = "Monza"

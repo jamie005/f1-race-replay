@@ -12,8 +12,9 @@ class BaseServiceSettings(BaseSettings):
         if v.upper() not in valid_levels:
             raise ValueError(f"log_level must be one of {valid_levels}, got '{v}'")
         return v.upper()
-    
+
     model_config = SettingsConfigDict(env_file=".env")
+
 
 class BaseKafkaServiceSettings(BaseServiceSettings):
     kafka_address: str = "localhost:9094"

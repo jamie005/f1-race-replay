@@ -898,7 +898,6 @@ files = []
 develop = true
 
 [package.dependencies]
-colorlog = "6.9.0"
 f1-replay-data-model-py = {path = "../../libs/f1-replay-data-model/python", develop = true}
 f1-replay-py-helpers = {path = "../../libs/f1-replay-py-helpers", develop = true}
 fastf1 = "3.4.3"
@@ -936,6 +935,9 @@ python-versions = ">=3.9"
 groups = ["main"]
 files = []
 develop = true
+
+[package.dependencies]
+colorlog = "6.9.0"
 
 [package.source]
 type = "directory"

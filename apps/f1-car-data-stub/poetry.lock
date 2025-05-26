@@ -427,6 +427,9 @@ groups = ["main"]
 files = []
 develop = true
 
+[package.dependencies]
+colorlog = "6.9.0"
+
 [package.source]
 type = "directory"
 url = "../../libs/f1-replay-py-helpers"
@@ -1998,4 +2001,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9"
-content-hash = "b52b6ba4a17dd23ed34a9fda832acb8218137ba08645ec41f474b0500fd914e1"
+content-hash = "6abea443fe3698edfea4eb8682319ce92bf601bf052b719f44b160fa6c06087e"
