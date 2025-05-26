@@ -2,8 +2,8 @@ from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-class BaseF1RaceReplayServiceSettings(BaseSettings):
-    log_level: str
+class BaseServiceSettings(BaseSettings):
+    log_level: str = "INFO"
 
     @field_validator("log_level")
     @classmethod
@@ -15,5 +15,5 @@ class BaseF1RaceReplayServiceSettings(BaseSettings):
     
     model_config = SettingsConfigDict(env_file=".env")
 
-class BaseKafkaServiceSettings(BaseF1RaceReplayServiceSettings):
-    kafka_address: str
+class BaseKafkaServiceSettings(BaseServiceSettings):
+    kafka_address: str = "localhost:9094"
