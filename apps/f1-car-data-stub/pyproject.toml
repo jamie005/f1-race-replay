@@ -38,6 +38,10 @@ readme = "README.md"
     path = "../../libs/f1-replay-data-model/python"
     develop = true
 
+    [tool.poetry.dependencies.f1-replay-py-helpers]
+    path = "../../libs/f1-replay-py-helpers"
+    develop = true
+
 [build-system]
 requires = [ "poetry-core" ]
 build-backend = "poetry.core.masonry.api"

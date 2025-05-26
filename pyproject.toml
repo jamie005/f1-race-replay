@@ -25,8 +25,8 @@ package-mode = false
     path = "./apps/kafka-websocket-bridge"
     develop = true
 
-    [tool.poetry.dependencies.f1-race-replay-py-helpers]
-    path = "./libs/f1-race-replay-py-helpers"
+    [tool.poetry.dependencies.f1-replay-py-helpers]
+    path = "./libs/f1-replay-py-helpers"
     develop = true
 
 [tool.poetry.group.dev.dependencies]
