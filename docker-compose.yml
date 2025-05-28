@@ -34,4 +34,4 @@ services:
       kafka:
         condition: service_started
     environment:
-      KAFKA_ADDRESS: kafka://kafka:9092
+      KAFKA_ADDRESS: kafka:9092
