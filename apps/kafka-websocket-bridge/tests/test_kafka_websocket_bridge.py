@@ -3,6 +3,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 from aiokafka import AIOKafkaConsumer
+from aiokafka.errors import ConsumerStoppedError
 from websockets import ServerConnection
 
 from kafka_websocket_bridge import create_kafka_websocket_bridge, kafka_websocket_handler
@@ -31,9 +32,9 @@ async def test_kafka_websocket_handler_sends_messages(mock_kafka_consumer, mock_
 
 @pytest.mark.asyncio
 async def test_kafka_websocket_handler_handles_exception(mock_kafka_consumer, mock_websocket):
-    mock_kafka_consumer.__aiter__.side_effect = Exception("fail")
+    mock_kafka_consumer.__aiter__.side_effect = ConsumerStoppedError()
 
-    with pytest.raises(Exception):
+    with pytest.raises(ConsumerStoppedError):
         await kafka_websocket_handler(mock_websocket, mock_kafka_consumer)
 
     mock_websocket.close.assert_awaited_once()
@@ -43,6 +44,7 @@ async def test_kafka_websocket_handler_handles_exception(mock_kafka_consumer, mo
 async def test_create_kafka_websocket_bridge_calls_serve_forever():
     mock_server = AsyncMock()
     handler = AsyncMock()
+
     async def fake_serve_forever():
         await asyncio.sleep(0.01)
     with patch("kafka_websocket_bridge.serve") as mock_serve:
@@ -50,6 +52,6 @@ async def test_create_kafka_websocket_bridge_calls_serve_forever():
         mock_server.serve_forever.side_effect = fake_serve_forever
 
         await create_kafka_websocket_bridge(handler, "localhost", 1234)
-        
+
         mock_serve.assert_called_with(handler, "localhost", 1234)
         mock_server.serve_forever.assert_awaited_once()
