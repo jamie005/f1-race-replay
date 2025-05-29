@@ -39,9 +39,8 @@ services:
     restart: unless-stopped
     depends_on:
       - kafka
-    # ports:
-    #   - 8765:8765
-    network_mode: host
-    # environment:
-    #   KAFKA_ADDRESS: kafka:9092
-
+    ports:
+      - 8765:8765
+    environment:
+      KAFKA_ADDRESS: kafka:9092
+      WEBSOCKET_HOST: 0.0.0.0
