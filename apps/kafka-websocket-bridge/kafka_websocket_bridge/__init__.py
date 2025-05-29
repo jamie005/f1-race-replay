@@ -3,7 +3,9 @@ from websockets import ServerConnection, serve
 
 
 def create_kafka_consumer(kafka_address: str, kafka_topic_pattern: str) -> AIOKafkaConsumer:
-    consumer = AIOKafkaConsumer(bootstrap_servers=kafka_address)
+    consumer = AIOKafkaConsumer(bootstrap_servers=kafka_address,
+                                connections_max_idle_ms=None,
+                                metadata_max_age_ms=1000)
     consumer.subscribe(pattern=kafka_topic_pattern)
     return consumer
 
