@@ -5,7 +5,7 @@ import logging
 from f1_replay_py_helpers.logging import color_log_handler
 from kafka_websocket_bridge import (
     create_kafka_consumer,
-    create_kafka_websocket_bridge,
+    start_kafka_websocket_bridge,
     kafka_websocket_handler
 )
 from kafka_websocket_bridge.settings import KafkaWebsocketBridgeSettings
@@ -25,11 +25,16 @@ async def main(logger: logging.Logger) -> None:
     consumer = create_kafka_consumer(settings.kafka_address, settings.kafka_topic_pattern)
     handler = functools.partial(kafka_websocket_handler, consumer=consumer)
     try:
+        logger.info(f"Connecting to Kafka at {settings.kafka_address} with topic pattern {settings.kafka_topic_pattern}...")
         await consumer.start()
-        await create_kafka_websocket_bridge(handler, settings.websocket_host, settings.websocket_port)
+        logger.info("Kafka consumer connected successfully!")
+
+        logger.info(f"Starting WebSocket server at {settings.websocket_host}:{settings.websocket_port}...")
+        await start_kafka_websocket_bridge(handler, settings.websocket_host, settings.websocket_port)
     except Exception as e:
-        logger.error(f"Error in kafka_websocket_handler: {e}")
+        logger.error(f"Error in Kafka Websocket Bridge: {e}")
     finally:
+        logger.info("Shutting down Kafka consumer...")
         await consumer.stop()
 
 
