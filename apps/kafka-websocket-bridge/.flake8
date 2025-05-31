@@ -7,6 +7,5 @@ exclude =
 	.tox,
 	venv,
 	.venv,
-	.pytest_cache,
-	f1_replay_data_model_py
+	.pytest_cache
 max-line-length = 120

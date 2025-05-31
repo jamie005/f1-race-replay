@@ -19,8 +19,7 @@ services:
     image: provectuslabs/kafka-ui:v0.7.0
     restart: unless-stopped
     depends_on:
-      kafka:
-        condition: service_started
+      - kafka
     ports:
       - 8189:8080
     environment:
@@ -31,7 +30,17 @@ services:
     image: f1-car-data-stub:dev
     restart: unless-stopped
     depends_on:
-      kafka:
-        condition: service_started
+      - kafka
     environment:
-      KAFKA_ADDRESS: kafka://kafka:9092
+      KAFKA_ADDRESS: kafka:9092
+  
+  kafka-websocket-bridge:
+    image: kafka-websocket-bridge:dev
+    restart: unless-stopped
+    depends_on:
+      - kafka
+    ports:
+      - 8765:8765
+    environment:
+      KAFKA_ADDRESS: kafka:9092
+      WEBSOCKET_HOST: 0.0.0.0

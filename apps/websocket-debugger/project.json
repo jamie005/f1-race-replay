@@ -1,8 +1,8 @@
 {
-  "name": "f1-replay-data-model-py",
-  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "library",
-  "sourceRoot": "libs/f1-replay-data-model/python/f1_replay_data_model_py",
+  "name": "websocket-debugger",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "./apps/websocket-debugger/websocket_debugger",
   "targets": {
     "lock": {
       "executor": "@nxlv/python:lock",
@@ -34,6 +34,14 @@
         "publish": false,
         "lockedVersions": true,
         "bundleLocalDependencies": true
+      },
+      "cache": true
+    },
+    "lint": {
+      "executor": "@nxlv/python:flake8",
+      "outputs": ["{workspaceRoot}/reports/{projectRoot}/pylint.txt"],
+      "options": {
+        "outputFile": "reports/{projectRoot}/pylint.txt"
       },
       "cache": true
     },
