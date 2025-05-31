@@ -6,7 +6,7 @@ from aiokafka import AIOKafkaConsumer
 from aiokafka.errors import ConsumerStoppedError
 from websockets import ServerConnection
 
-from kafka_websocket_bridge import create_kafka_websocket_bridge, kafka_websocket_handler
+from kafka_websocket_bridge import start_kafka_websocket_bridge, kafka_websocket_handler
 
 
 @pytest.fixture
@@ -31,17 +31,18 @@ async def test_kafka_websocket_handler_sends_messages(mock_kafka_consumer, mock_
 
 
 @pytest.mark.asyncio
-async def test_kafka_websocket_handler_handles_exception(mock_kafka_consumer, mock_websocket):
+async def test_kafka_websocket_handler_handles_exception(mock_kafka_consumer, mock_websocket, caplog):
     mock_kafka_consumer.__aiter__.side_effect = ConsumerStoppedError()
 
-    with pytest.raises(ConsumerStoppedError):
+    with caplog.at_level("ERROR"):
         await kafka_websocket_handler(mock_websocket, mock_kafka_consumer)
 
     mock_websocket.close.assert_awaited_once()
+    assert any("Error in Kafka Websocket handler" in record.message for record in caplog.records)
 
 
 @pytest.mark.asyncio
-async def test_create_kafka_websocket_bridge_calls_serve_forever():
+async def test_start_kafka_websocket_bridge_calls_serve_forever():
     mock_server = AsyncMock()
     handler = AsyncMock()
 
@@ -51,7 +52,7 @@ async def test_create_kafka_websocket_bridge_calls_serve_forever():
         mock_serve.return_value.__aenter__.return_value = mock_server
         mock_server.serve_forever.side_effect = fake_serve_forever
 
-        await create_kafka_websocket_bridge(handler, "localhost", 1234)
+        await start_kafka_websocket_bridge(handler, "localhost", 1234)
 
         mock_serve.assert_called_with(handler, "localhost", 1234)
         mock_server.serve_forever.assert_awaited_once()
