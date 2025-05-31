@@ -1,8 +1,8 @@
 import logging
 
+import websockets
 from aiokafka import AIOKafkaConsumer
 from websockets import ServerConnection, serve
-import websockets
 
 
 logger = logging.getLogger(__package__)
