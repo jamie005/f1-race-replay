@@ -25,7 +25,8 @@ async def main(logger: logging.Logger) -> None:
     consumer = create_kafka_consumer(settings.kafka_address, settings.kafka_topic_pattern)
     handler = functools.partial(kafka_websocket_handler, consumer=consumer)
     try:
-        logger.info(f"Connecting to Kafka at {settings.kafka_address} with topic pattern {settings.kafka_topic_pattern}...")
+        logger.info(f"Connecting to Kafka at {settings.kafka_address} with topic pattern: ",
+                    f"{settings.kafka_topic_pattern}...")
         await consumer.start()
         logger.info("Kafka consumer connected successfully!")
 
