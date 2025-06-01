@@ -9,6 +9,7 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-router-dom": "6.29.0",
+    "react-use-websocket": "^4.13.0",
     "resium": "^1.19.0-beta.1"
   },
   "devDependencies": {
