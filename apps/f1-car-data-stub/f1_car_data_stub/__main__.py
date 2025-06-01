@@ -48,7 +48,7 @@ def main() -> None:
         return
     logger.info("Car telemetry loaded successfully!")
 
-    telemetry_transformer = TelemetryTransformer(TRACK_WGS84_ORIGINS[settings.track])
+    telemetry_transformer = TelemetryTransformer(settings.driver, TRACK_WGS84_ORIGINS[settings.track])
     publish_topic = f"f1-race-replay.telemetry.{settings.driver.lower()}"
 
     # Start F1 Car Data Stub

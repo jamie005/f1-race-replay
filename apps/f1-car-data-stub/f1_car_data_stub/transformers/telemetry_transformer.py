@@ -20,13 +20,14 @@ class TelemetryTransformer():
         _logger (logging.Logger): Logger for the transformer.
     """
 
-    def __init__(self, origin: Wgs84Position) -> None:
+    def __init__(self, driver: str, origin: Wgs84Position) -> None:
         """
         Initialize the TelemetryTransformer.
 
         Args:
             origin (Wgs84Position): The WGS84 origin for ENU to geodetic conversion.
         """
+        self._driver: str = driver
         self._origin: Wgs84Position = origin
         self._logger = logging.getLogger(__package__)
 
@@ -46,6 +47,7 @@ class TelemetryTransformer():
                                                       self._origin.longitude,
                                                       self._origin.altitude)
         f1_car_telemetry_report = F1CarTelemetryReport()
+        f1_car_telemetry_report.driver = self._driver
         f1_car_telemetry_report.latitude = latitude
         f1_car_telemetry_report.longitude = longitude
         f1_car_telemetry_report.engine_rpm = telemetry["RPM"]
