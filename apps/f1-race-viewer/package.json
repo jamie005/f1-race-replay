@@ -1,8 +1,0 @@
-{
-  "name": "@f1-race-replay/f1-race-viewer",
-  "version": "0.0.1",
-  "private": true,
-  "nx": {
-    "name": "f1-race-viewer"
-  }
-}
