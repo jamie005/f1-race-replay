@@ -13,7 +13,8 @@
 		"ghcr.io/devcontainers-contrib/features/poetry:2": {},
 		"ghcr.io/devcontainers-extra/features/nx-npm:1": {},
 		"ghcr.io/devcontainers-extra/features/protoc-asdf:1": {},
-		"ghcr.io/dhoeric/features/hadolint:1": {}
+		"ghcr.io/dhoeric/features/hadolint:1": {},
+		"ghcr.io/schlich/devcontainer-features/cypress:1": {}
 	},
 
 	// 👇 Use 'forwardPorts' to make a list of ports inside the container available locally.
