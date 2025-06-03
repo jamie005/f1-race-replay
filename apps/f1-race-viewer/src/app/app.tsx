@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Entity, Viewer, Clock } from "resium";
 import useWebSocket from 'react-use-websocket';
 import { F1CarTelemetryReport } from '@f1-race-replay/data-model'
-import { Cartesian3, Color, ExtrapolationType, JulianDate, SampledPositionProperty, LagrangePolynomialApproximation, LinearApproximation } from 'cesium';
+import { Cartesian3, Color, ExtrapolationType, JulianDate, SampledPositionProperty, LagrangePolynomialApproximation, LinearApproximation, VelocityOrientationProperty, TrackingReferenceFrame } from 'cesium';
 
 export function App() {
   const { lastMessage, readyState, getWebSocket } = useWebSocket("ws://127.0.0.1:8765");
@@ -15,8 +15,9 @@ export function App() {
   useEffect(() => {
     sampledPositionProperty.current.forwardExtrapolationType = ExtrapolationType.HOLD;
     sampledPositionProperty.current.forwardExtrapolationDuration = 10;
+    // sampledPositionProperty.current.backwardExtrapolationType = 
     sampledPositionProperty.current.setInterpolationOptions({
-      interpolationDegree: 1,
+      interpolationDegree: 20,
       interpolationAlgorithm: LinearApproximation,
     });
   }, []);
@@ -34,7 +35,7 @@ export function App() {
     console.log("Received message:", report);
     lastReport.current = report;
     sampledPositionProperty.current.addSample(
-      JulianDate.fromDate(new Date(Date.now() + 3000)),
+      JulianDate.now(),
       Cartesian3.fromDegrees(report.longitude, report.latitude, 0)
     );
 
@@ -47,7 +48,18 @@ export function App() {
       <Entity
         key={lastReport.current?.driver}
         position={sampledPositionProperty.current}
+        orientation={new VelocityOrientationProperty(sampledPositionProperty.current)}
         point={{ pixelSize: 10, color: Color.RED }}
+        description={lastReport.current ? 
+          `
+          Driver: ${lastReport.current.driver} <br/>
+          Speed: ${lastReport.current.speedKmh} km/h <br/>
+          Engine RPM: ${lastReport.current.engineRpm} <br/>
+          Gear: ${lastReport.current.gear} <br/>
+          Throttle Actuation: ${lastReport.current.throttlePercent}% <br/>
+          Brake Actuation: ${lastReport.current.brakeOn}
+          ` 
+          : "No data yet"}
       />
     </Viewer>
   );
