@@ -6,8 +6,8 @@ import {
   ModelGraphics,
   CameraFlyTo,
   LabelGraphics,
-  PointGraphics,
   BillboardGraphics,
+  GeoJsonDataSource,
 } from 'resium';
 import useWebSocket from 'react-use-websocket';
 import { F1CarTelemetryReport } from '@f1-race-replay/data-model';
@@ -20,20 +20,13 @@ import {
   LagrangePolynomialApproximation,
   VelocityOrientationProperty,
   TrackingReferenceFrame,
-  HeightReference,
   VerticalOrigin,
-  NearFarScalar,
   HorizontalOrigin,
   Cartesian2,
   DistanceDisplayCondition,
+  ConstantProperty,
+  LabelGraphics as CesiumLabelGraphics,
 } from 'cesium';
-
-const NEAR_FAR_SCALAR: NearFarScalar = new NearFarScalar(
-  5000, // Near distance (meters)
-  0, // Scale at near (invisible when close)
-  20000, // Far distance (20km)
-  1.0 // Scale at far (fully visible when far)
-);
 
 export function App() {
   const { lastMessage, readyState, getWebSocket } = useWebSocket(
@@ -92,19 +85,42 @@ export function App() {
         destination={Cartesian3.fromDegrees(9.285138, 45.62154, 4000)}
         once={true}
       />
-      <Entity position={Cartesian3.fromDegrees(9.285138, 45.62154)}>
-        <LabelGraphics
-          text={'Monza'}
-          heightReference={HeightReference.RELATIVE_TO_GROUND}
-          verticalOrigin={VerticalOrigin.TOP}
-          scaleByDistance={NEAR_FAR_SCALAR}
-        />
-        <PointGraphics
-          color={Color.RED}
-          pixelSize={10}
-          scaleByDistance={NEAR_FAR_SCALAR}
-        />
-      </Entity>
+      <GeoJsonDataSource
+        data={'./src/assets/f1-circuits.geojson'}
+        stroke={Color.RED}
+        strokeWidth={6}
+        onLoad={(g) => {
+          g.entities.values.forEach((entity) => {
+            if (entity.polyline) {
+              entity.polyline.distanceDisplayCondition = new ConstantProperty(
+                new DistanceDisplayCondition(400, 10000)
+              );
+            }
+          });
+        }}
+      />
+      <GeoJsonDataSource
+        data={'./src/assets/f1-locations.geojson'}
+        markerColor={Color.RED}
+        markerSymbol="car"
+        onLoad={(g) => {
+          g.entities.values.forEach((entity) => {
+            entity.label = new CesiumLabelGraphics({
+              text: entity.properties.name,
+              font: '24px Helvetica',
+              distanceDisplayCondition: new DistanceDisplayCondition(
+                10000,
+                99999999
+              ),
+            });
+            if (entity.billboard) {
+              entity.billboard.distanceDisplayCondition = new ConstantProperty(
+                new DistanceDisplayCondition(10000, 99999999)
+              );
+            }
+          });
+        }}
+      />
       <Entity
         key={lastReport.current?.driver}
         position={sampledPositionProperty.current}
@@ -124,15 +140,17 @@ export function App() {
         <BillboardGraphics
           image={'./src/assets/red_bull_pin.png'}
           scale={0.02}
-          distanceDisplayCondition={new DistanceDisplayCondition(400, 5000)}
+          distanceDisplayCondition={new DistanceDisplayCondition(400, 10000)}
+          eyeOffset={Cartesian3.fromElements(0, 0, -100)}
         />
         <LabelGraphics
           text={lastReport.current ? lastReport.current.driver : ''}
           verticalOrigin={VerticalOrigin.TOP}
           horizontalOrigin={HorizontalOrigin.CENTER}
           font={'24px Helvetica'}
-          pixelOffset={new Cartesian2(-12, 0)}
-          distanceDisplayCondition={new DistanceDisplayCondition(400, 5000)}
+          pixelOffset={Cartesian2.fromElements(0, 18)}
+          distanceDisplayCondition={new DistanceDisplayCondition(400, 10000)}
+          eyeOffset={Cartesian3.fromElements(0, 0, -100)}
         />
       </Entity>
     </Viewer>
