@@ -69,13 +69,13 @@ export function F1Cars() {
       name={lastReport.current ? lastReport.current.driver : ''}
     >
       <ModelGraphics
-        uri={'./src/assets/low_poly_f1.glb'}
+        uri={'/low_poly_f1.glb'}
         scale={0.4}
         runAnimations={true}
         distanceDisplayCondition={new DistanceDisplayCondition(1, 400)}
       />
       <BillboardGraphics
-        image={'./src/assets/red_bull_pin.png'}
+        image={'/red_bull_pin.png'}
         scale={0.02}
         distanceDisplayCondition={new DistanceDisplayCondition(400, 10000)}
         eyeOffset={Cartesian3.fromElements(0, 0, -100)}

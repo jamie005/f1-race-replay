@@ -86,7 +86,7 @@ export function TrackNavigator() {
         <CameraFlyTo duration={3} destination={cameraPosition} once />
       )}
       <GeoJsonDataSource
-        data={'./src/assets/f1-circuits.geojson'}
+        data={'/f1-circuits.geojson'}
         stroke={TRACK_NAVIGATOR_COLOUR_SCHEME}
         strokeWidth={6}
         onLoad={(geoJsonDataSource) =>
@@ -94,7 +94,7 @@ export function TrackNavigator() {
         }
       />
       <GeoJsonDataSource
-        data={'./src/assets/f1-locations.geojson'}
+        data={'/f1-locations.geojson'}
         markerColor={TRACK_NAVIGATOR_COLOUR_SCHEME}
         markerSymbol="car"
         onClick={(movement, target) =>
