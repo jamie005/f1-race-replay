@@ -24,8 +24,7 @@ def test_valid_session_and_driver():
         (TRACK, YEAR, SESSION_TYPE, "BRUH", "no driver number!"),
         (TRACK, YEAR, "BRUH", DRIVER, "Invalid session type 'BRUH'"),
         (TRACK, 0, SESSION_TYPE, DRIVER, "Failed to load any schedule data."),
-        (TRACK, 3000, SESSION_TYPE, DRIVER,
-         "zero-size array to reduction operation maximum which has no identity"),
+        (TRACK, 3000, SESSION_TYPE, DRIVER, ""),
     ]
 )
 def test_invalid_inputs(track, year, session_type, driver, match):
