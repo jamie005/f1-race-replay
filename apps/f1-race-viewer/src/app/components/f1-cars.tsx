@@ -30,7 +30,6 @@ export function F1Cars() {
     new SampledPositionProperty()
   );
 
-  // Set interpolation options once
   useEffect(() => {
     sampledPositionProperty.current.forwardExtrapolationType =
       ExtrapolationType.HOLD;
@@ -47,13 +46,12 @@ export function F1Cars() {
   }, [getWebSocket, readyState]);
 
   useEffect(() => {
-    if (!lastMessage) return;
-    if (!(lastMessage.data instanceof ArrayBuffer)) return;
+    if (!lastMessage || !(lastMessage.data instanceof ArrayBuffer)) return;
 
     const report: F1CarTelemetryReport = F1CarTelemetryReport.decode(
       new Uint8Array(lastMessage.data)
     );
-    console.log('Received message:', report);
+    console.debug('Received message:', report);
     lastReport.current = report;
     sampledPositionProperty.current.addSample(
       JulianDate.now(),
@@ -67,7 +65,6 @@ export function F1Cars() {
       orientation={
         new VelocityOrientationProperty(sampledPositionProperty.current)
       }
-      // point={{ pixelSize: 10, color: Color.RED }}
       trackingReferenceFrame={TrackingReferenceFrame.INERTIAL}
       name={lastReport.current ? lastReport.current.driver : ''}
     >
