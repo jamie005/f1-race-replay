@@ -8,6 +8,7 @@ import {
   Matrix4,
   LabelGraphics as CesiumLabelGraphics,
   GeoJsonDataSource as CesiumGeoJsonDataSource,
+  Cartesian2,
 } from 'cesium';
 import { useCallback, useState } from 'react';
 import {
@@ -29,8 +30,9 @@ export function TrackNavigator() {
     (geoJsonDataSource: CesiumGeoJsonDataSource) => {
       geoJsonDataSource.entities.values.forEach((entity) => {
         entity.label = new CesiumLabelGraphics({
-          text: entity.properties.name,
+          text: entity.properties?.location,
           font: '24px Helvetica',
+          pixelOffset: Cartesian2.fromElements(0, 10),
           distanceDisplayCondition: new DistanceDisplayCondition(
             PIN_OUTLINE_TRANSITION_DISTANCE_METERS,
             99999999
