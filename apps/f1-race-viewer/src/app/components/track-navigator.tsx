@@ -7,69 +7,102 @@ import {
   Transforms,
   Matrix4,
   LabelGraphics as CesiumLabelGraphics,
+  GeoJsonDataSource as CesiumGeoJsonDataSource,
 } from 'cesium';
-import { useState } from 'react';
-import { CameraFlyTo, GeoJsonDataSource } from 'resium';
+import { useCallback, useState } from 'react';
+import {
+  CameraFlyTo,
+  CesiumMovementEvent,
+  EventTarget,
+  GeoJsonDataSource,
+} from 'resium';
+
+const TRACK_NAVIGATOR_COLOUR_SCHEME: Color = Color.RED;
+const PIN_OUTLINE_TRANSITION_DISTANCE_METERS = 10000;
 
 export function TrackNavigator() {
   const [cameraPosition, setCameraPosition] = useState<Cartesian3 | undefined>(
     undefined
   );
+
+  const handleF1TrackPinsLoaded = useCallback(
+    (geoJsonDataSource: CesiumGeoJsonDataSource) => {
+      geoJsonDataSource.entities.values.forEach((entity) => {
+        entity.label = new CesiumLabelGraphics({
+          text: entity.properties.name,
+          font: '24px Helvetica',
+          distanceDisplayCondition: new DistanceDisplayCondition(
+            PIN_OUTLINE_TRANSITION_DISTANCE_METERS,
+            99999999
+          ),
+        });
+        if (!entity.billboard) return;
+        entity.billboard.distanceDisplayCondition = new ConstantProperty(
+          new DistanceDisplayCondition(
+            PIN_OUTLINE_TRANSITION_DISTANCE_METERS,
+            99999999
+          )
+        );
+      });
+    },
+    []
+  );
+
+  const handleF1TrackOutlinesLoaded = useCallback(
+    (geoJsonDataSource: CesiumGeoJsonDataSource) => {
+      geoJsonDataSource.entities.values.forEach((entity) => {
+        if (!entity.polyline) return;
+        entity.polyline.distanceDisplayCondition = new ConstantProperty(
+          new DistanceDisplayCondition(
+            400,
+            PIN_OUTLINE_TRANSITION_DISTANCE_METERS
+          )
+        );
+      });
+    },
+    []
+  );
+
+  const handleF1TrackPinClicked = useCallback(
+    (m: CesiumMovementEvent, target: EventTarget) => {
+      const track_location: Cartesian3 | undefined =
+        target.id?.position?.getValue(JulianDate.now());
+      if (!track_location) return;
+      const offset = Cartesian3.fromElements(0, 0, 4000);
+      const enuTransform = Transforms.eastNorthUpToFixedFrame(track_location);
+      const cameraDestination = Matrix4.multiplyByPoint(
+        enuTransform,
+        offset,
+        new Cartesian3()
+      );
+      setCameraPosition(cameraDestination);
+    },
+    []
+  );
+
   return (
     <>
       {cameraPosition && (
-        <CameraFlyTo duration={3} destination={cameraPosition} />
+        <CameraFlyTo duration={3} destination={cameraPosition} once />
       )}
       <GeoJsonDataSource
         data={'./src/assets/f1-circuits.geojson'}
-        stroke={Color.RED}
+        stroke={TRACK_NAVIGATOR_COLOUR_SCHEME}
         strokeWidth={6}
-        onLoad={(g) => {
-          g.entities.values.forEach((entity) => {
-            if (entity.polyline) {
-              entity.polyline.distanceDisplayCondition = new ConstantProperty(
-                new DistanceDisplayCondition(400, 10000)
-              );
-            }
-          });
-        }}
+        onLoad={(geoJsonDataSource) =>
+          handleF1TrackOutlinesLoaded(geoJsonDataSource)
+        }
       />
       <GeoJsonDataSource
         data={'./src/assets/f1-locations.geojson'}
-        markerColor={Color.RED}
+        markerColor={TRACK_NAVIGATOR_COLOUR_SCHEME}
         markerSymbol="car"
-        onClick={(m, target) => {
-          const track_location: Cartesian3 | undefined =
-            target.id.position.getValue(JulianDate.now());
-          if (track_location) {
-            const offset = Cartesian3.fromElements(0, 0, 4000);
-            const enuTransform =
-              Transforms.eastNorthUpToFixedFrame(track_location);
-            const cameraDestination = Matrix4.multiplyByPoint(
-              enuTransform,
-              offset,
-              new Cartesian3()
-            );
-            setCameraPosition(cameraDestination);
-          }
-        }}
-        onLoad={(g) => {
-          g.entities.values.forEach((entity) => {
-            entity.label = new CesiumLabelGraphics({
-              text: entity.properties.name,
-              font: '24px Helvetica',
-              distanceDisplayCondition: new DistanceDisplayCondition(
-                10000,
-                99999999
-              ),
-            });
-            if (entity.billboard) {
-              entity.billboard.distanceDisplayCondition = new ConstantProperty(
-                new DistanceDisplayCondition(10000, 99999999)
-              );
-            }
-          });
-        }}
+        onClick={(movement, target) =>
+          handleF1TrackPinClicked(movement, target)
+        }
+        onLoad={(geoJsonDataSource) =>
+          handleF1TrackPinsLoaded(geoJsonDataSource)
+        }
       />
     </>
   );
