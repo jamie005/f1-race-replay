@@ -1,7 +1,7 @@
 # 🏎️ F1 Race Replay 🏎️
 ![example workflow](https://github.com/jamie005/f1-race-replay/actions/workflows/ci.yml/badge.svg)
 
-<iframe src="https://drive.google.com/file/d/1uWUa1R2qWs-5DZ3aQGkkrd7cq5bTZMsq/preview" width="640" height="480" allow="autoplay"></iframe>
+![Demo](https://drive.google.com/file/d/1uWUa1R2qWs-5DZ3aQGkkrd7cq5bTZMsq/preview)
 
 ## Project Setup
 
