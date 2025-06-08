@@ -20,9 +20,9 @@ streaming it using Kafka.
 ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 
 ## Screenshots
-![Screenshot](./img/screenshot2.png)
+![Screenshot](./img/demo.gif)
 ![Screenshot](./img/screenshot1.png)
-![Screenshot](./img/screenshot3.png)
+![Screenshot](./img/screenshot2.png)
 
 ## Project Setup
 
