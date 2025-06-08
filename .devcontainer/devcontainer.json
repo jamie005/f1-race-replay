@@ -39,7 +39,9 @@
 
 	"mounts": [
     	"type=bind,source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,readonly"
-	]
+	],
+
+	"onCreateCommand": ["./.devcontainer/setup.sh"]
 
 	// 👇 Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
