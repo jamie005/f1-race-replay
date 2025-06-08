@@ -85,7 +85,7 @@ export function TrackNavigator() {
   return (
     <>
       {cameraPosition && (
-        <CameraFlyTo duration={3} destination={cameraPosition} once />
+        <CameraFlyTo duration={3} destination={cameraPosition} />
       )}
       <GeoJsonDataSource
         data={'/f1-circuits.geojson'}
