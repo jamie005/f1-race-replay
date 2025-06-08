@@ -27,4 +27,5 @@ def wgs84_origin() -> Wgs84Position:
 
 @pytest.fixture
 def telemetry_transformer(wgs84_origin: Wgs84Position) -> TelemetryTransformer:
-    return TelemetryTransformer(wgs84_origin)
+    return TelemetryTransformer(driver="VER",
+                                origin=wgs84_origin)

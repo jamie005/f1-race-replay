@@ -1,0 +1,10 @@
+{
+  "name": "f1-race-viewer-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/f1-race-viewer-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["f1-race-viewer"],
+  "// targets": "to see all targets run: nx show project f1-race-viewer-e2e --web",
+  "targets": {}
+}

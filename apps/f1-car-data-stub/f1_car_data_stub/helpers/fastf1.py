@@ -29,4 +29,4 @@ def get_car_telemetry(track: str, year: int, session_type: str, driver: str) -> 
     driver_laps = session.laps.pick_drivers(driver)
     logger.debug("Laps loaded!")
 
-    return driver_laps.get_telemetry()
+    return driver_laps.get_pos_data()

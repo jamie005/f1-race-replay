@@ -18,15 +18,15 @@ def test_x_y_coordinates_are_transformed(telemetry_transformer: TelemetryTransfo
     assert f1_car_telemetry_report.latitude == latitude
     assert f1_car_telemetry_report.longitude == longitude
 
-
-def test_rpm_speed_ngear_throttle_brake_telemetry_is_transformed(telemetry_transformer: TelemetryTransformer,
-                                                                 sample_telemetry_row: pd.Series):
-    f1_car_telemetry_report = telemetry_transformer.transform(sample_telemetry_row)
-    assert f1_car_telemetry_report.engine_rpm == sample_telemetry_row["RPM"]
-    assert f1_car_telemetry_report.speed_kmh == sample_telemetry_row["Speed"]
-    assert f1_car_telemetry_report.gear == sample_telemetry_row["nGear"]
-    assert f1_car_telemetry_report.throttle_percent == sample_telemetry_row["Throttle"]
-    assert f1_car_telemetry_report.brake_on == sample_telemetry_row["Brake"]
+# TODO Create new tests for separate car data transformer once ready
+# def test_rpm_speed_ngear_throttle_brake_telemetry_is_transformed(telemetry_transformer: TelemetryTransformer,
+#                                                                  sample_telemetry_row: pd.Series):
+#     f1_car_telemetry_report = telemetry_transformer.transform(sample_telemetry_row)
+#     assert f1_car_telemetry_report.engine_rpm == sample_telemetry_row["RPM"]
+#     assert f1_car_telemetry_report.speed_kmh == sample_telemetry_row["Speed"]
+#     assert f1_car_telemetry_report.gear == sample_telemetry_row["nGear"]
+#     assert f1_car_telemetry_report.throttle_percent == sample_telemetry_row["Throttle"]
+#     assert f1_car_telemetry_report.brake_on == sample_telemetry_row["Brake"]
 
 
 def test_ontrack_status_is_transformed(telemetry_transformer: TelemetryTransformer,
